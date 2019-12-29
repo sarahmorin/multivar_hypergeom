@@ -1,6 +1,6 @@
-#
-# Author: Sarah Morin
-#
+"""
+Unittest document for MultivarHG class.
+"""
 
 import unittest
 from multivariate_hypergeometric import MultivarHG
