@@ -10,6 +10,7 @@ from typing import Dict
 
 InputDist = Union[List[int], Dict[str, int]]
 
+
 class MultivarHG(object):
     init_total: int = 0
     curr_total: int = 0
@@ -18,9 +19,8 @@ class MultivarHG(object):
     type_names: List[str] = None
     type_num: int = 0
 
-
     def __init__(self, counts,
-            names: List[str] = None, total: int = None):
+                 names: List[str] = None, total: int = None):
 
         if type(counts) is list and all(isinstance(n, int) for n in counts):
             self.init_counts = counts
@@ -28,19 +28,24 @@ class MultivarHG(object):
 
             if names:
                 if len(names) != len(counts):
-                    raise Exception('Incompatible lengths: type names and counts must be equal length')
+                    raise Exception('Incompatible lengths: \
+                            type names and counts must be equal length')
 
                 self.type_names = names
 
-        elif type(counts) is dict and all(isinstance(k, str) for k in counts.keys()) and all(isinstance(v, int) for v in counts.values()):
+        elif type(counts) is dict \
+                and all(isinstance(k, str) for k in counts.keys()) \
+                and all(isinstance(v, int) for v in counts.values()):
             self.init_counts = counts.values()
             self.curr_counts = counts.values()
             self.type_names = counts.keys()
             if names:
-                raise Exception('Too may arguments: type names input in counts and names')
+                raise Exception('Too may arguments: \
+                        type names input in counts and names')
 
         else:
-            raise TypeError('Unsupported type: counts must be List[int] or Dict[str, int]')
+            raise TypeError('Unsupported type: \
+                    counts must be List[int] or Dict[str, int]')
 
         if total:
             self.init_total = total
@@ -52,25 +57,32 @@ class MultivarHG(object):
         self.type_num = len(self.init_counts)
 
     def __repr__(self):
-        return 'MultivarHG({},{},{})'.format(self.type_names, self.curr_counts, self.curr_total)
+        return 'MultivarHG({},{},{})'.format(self.type_names,
+                                             self.curr_counts,
+                                             self.curr_total)
 
     def __str__(self):
         return 'Types: {} \n \
                 Counts: {} \n \
-                Total: {}'.format(self.type_names, self.curr_counts, self.curr_total)
+                Total: {}'.format(self.type_names,
+                                  self.curr_counts,
+                                  self.curr_total)
 
     def cdf(self) -> np.ndarray:
         # Calculate proportions of counts to total
-        props = np.array([self.curr_counts[i]/self.curr_total for i in range(len(self.curr_counts))], dtype=[float])
+        props = np.array([self.curr_counts[i]/self.curr_total
+                         for i in range(len(self.curr_counts))],
+                         dtype=[float])
         return np.array([sum(props[i+1]) for i in range(len(props))])
 
-    def sample(self, size:int) -> np.ndarray:
+    def sample(self, size: int) -> np.ndarray:
         # TODO
         return None
 
     def reset(self) -> None:
         if self.init_total == 0 or self.init_counts is None:
-            raise Exception('Instantiation Error: initial values not stored correctly')
+            raise Exception('Instantiation Error: \
+                            initial values not stored correctly')
 
         self.curr_total = self.init_total
         self.curr_counts = self.init_counts
