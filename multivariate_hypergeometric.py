@@ -72,12 +72,32 @@ class MultivarHG(object):
         # Calculate proportions of counts to total
         props = np.array([self.curr_counts[i]/self.curr_total
                          for i in range(len(self.curr_counts))],
-                         dtype=[float])
-        return np.array([sum(props[i+1]) for i in range(len(props))])
+                         dtype=float)
+        return np.array([sum(props[:i+1]) for i in range(self.type_num)])
 
     def sample(self, size: int) -> np.ndarray:
-        # TODO
-        return None
+        if type(size) is not int:
+            raise TypeError('size must be integer value')
+        if size <= 0 or size > self.curr_total:
+            raise ValueError('Invalid size')
+        if self.curr_total == 0:
+            raise Exception('Empty sample space')
+        sample_counts = np.zeros(self.type_num, dtype=int)
+        sample_size = 0
+
+        while(sample_size < size):
+            rv = np.random.random()
+            cdf = self.cdf()
+
+            for i in range(self.type_num):
+                if rv < cdf[i] and self.curr_counts[i] > 0:
+                    sample_counts[i] += 1
+                    self.curr_counts[i] -= 1
+                    sample_size += 1
+                    self.curr_total -= 1
+                    break
+
+        return sample_counts
 
     def reset(self) -> None:
         if self.init_total == 0 or self.init_counts is None:

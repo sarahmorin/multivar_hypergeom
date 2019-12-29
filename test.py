@@ -38,9 +38,24 @@ class TestCreationMethod(unittest.TestCase):
 
 
 class TestSamplingMethod(unittest.TestCase):
-    # TODO
-    def test(self):
-        return None
+
+    def test_exceptions(self):
+        test = MultivarHG([1, 2, 3])
+        self.assertRaises(TypeError, test.sample, 2.5)
+        self.assertRaises(TypeError, test.sample, 'nine')
+        self.assertRaises(ValueError, test.sample, 0)
+        self.assertRaises(ValueError, test.sample, -2)
+        self.assertRaises(ValueError, test.sample, 500)
+        test.sample(6)
+        self.assertRaises(Exception, test.sample, 2)
+
+    def simple(self):
+        test1 = MultivarHG([10, 20, 30])
+        sample1 = test1.sample(30)
+        self.assertTrue(bool(sum(sample1) == 30))
+        self.assertTrue(bool(sample1[0] >= 0 and sample1[0] <= 10))
+        self.assertTrue(bool(sample1[1] >= 0 and sample1[1] <= 20))
+        self.assertTrue(bool(sample1[2] >= 0 and sample1[2] <= 30))
 
 
 class TestResetMethod(unittest.TestCase):
