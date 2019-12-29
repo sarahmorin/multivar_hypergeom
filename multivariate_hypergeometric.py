@@ -69,7 +69,7 @@ class MultivarHG(object):
         return None
 
     def reset(self) -> None:
-        if self.init_total is 0 or self.init_counts is None:
+        if self.init_total == 0 or self.init_counts is None:
             raise Exception('Instantiation Error: initial values not stored correctly')
 
         self.curr_total = self.init_total
