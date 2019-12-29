@@ -1,6 +1,10 @@
-#
-# Author: Sarah Morin
-#
+"""
+    Module for sampling from multivariate hypergeometric distribution.
+"""
+
+__all__ = ['MultivarHG']
+__version__ = '0.0.1'
+__author__ = 'Sarah Morin'
 
 import math
 import numpy as np
@@ -12,6 +16,24 @@ InputDist = Union[List[int], Dict[str, int]]
 
 
 class MultivarHG(object):
+    """
+    Class for multivariate hypergeometric distribution objects.
+
+        @attribute init_total: initial total size of dsitribution
+
+        @attribute curr_total: total size of distribution after 0
+        or more samples
+
+        @attribute init_counts: initial counts of each item type
+
+        @attribute curr_count: counts of each item type after 0 or
+        more samples
+
+        @attribute type_names: name/id for each item type
+
+        @attribute type_num: number of different item types
+    """
+
     init_total: int = 0
     curr_total: int = 0
     init_counts: List[int] = None
@@ -22,6 +44,25 @@ class MultivarHG(object):
     def __init__(self, counts,
                  names: List[str] = None, total: int = None):
 
+        """
+        Creating a distribution object.
+
+        @param counts: Counts of item types in distribution. Can be list of
+        integers or dict of string keys with integer values. Length of list
+        gives type_num. If no total is passed in, both init_total and
+        curr_total are initialized to sum of type counts passed in.
+
+        @return: MultivarHG object with attributes as described above.
+
+        -- Optional --
+
+        @param names: List of strings which identify different types of
+        items in distribution. Length must be equal to type_num. Cannot be
+        used in addition to dict type counts.
+
+        @param total: Integer total size of distribution. If counts contained
+        integer values, should be equal to sum of those counts.
+        """
         if type(counts) is list and all(isinstance(n, int) for n in counts):
             self.init_counts = counts
             self.curr_counts = counts
@@ -69,13 +110,28 @@ class MultivarHG(object):
                                   self.curr_total)
 
     def cdf(self) -> np.ndarray:
-        # Calculate proportions of counts to total
+        """
+        Computes cumuliative distribution function.
+
+        @return: NumPy array of floats where each entry is the sum of
+        proportions of items up to that point.
+        """
         props = np.array([self.curr_counts[i]/self.curr_total
                          for i in range(len(self.curr_counts))],
                          dtype=float)
         return np.array([sum(props[:i+1]) for i in range(self.type_num)])
 
     def sample(self, size: int) -> np.ndarray:
+        """
+        Acquire sample of given size from current distribution.
+
+        @param size: Integer sample size desired. Must be greater than 0
+        and less than or equal to current size of distribution.
+
+        @return: NumPy array of integers where each entry represents number
+        of items of that type found in sample. These items have been removed
+        from the distribution.
+        """
         if type(size) is not int:
             raise TypeError('size must be integer value')
         if size <= 0 or size > self.curr_total:
@@ -100,6 +156,7 @@ class MultivarHG(object):
         return sample_counts
 
     def reset(self) -> None:
+        """Resets distribution to initial state."""
         if self.init_total == 0 or self.init_counts is None:
             raise Exception('Instantiation Error: \
                             initial values not stored correctly')
