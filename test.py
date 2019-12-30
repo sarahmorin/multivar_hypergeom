@@ -49,7 +49,7 @@ class TestSamplingMethod(unittest.TestCase):
         test.sample(6)
         self.assertRaises(Exception, test.sample, 2)
 
-    def simple(self):
+    def simple_list(self):
         test1 = MultivarHG([10, 20, 30])
         sample1 = test1.sample(30)
         self.assertTrue(bool(sum(sample1) == 30))
@@ -57,11 +57,38 @@ class TestSamplingMethod(unittest.TestCase):
         self.assertTrue(bool(sample1[1] >= 0 and sample1[1] <= 20))
         self.assertTrue(bool(sample1[2] >= 0 and sample1[2] <= 30))
 
+    def simple_dict(self):
+        test1 = MultivarHG({'A': 10, 'B': 20, 'C': 30})
+        sample1 = test.sample(30)
+        self.assertTrue(bool(sum(sample1) == 30))
+        self.assertTrue(bool(sample1[0] >= 0 and sample1[0] <= 10))
+        self.assertTrue(bool(sample1[1] >= 0 and sample1[1] <= 20))
+        self.assertTrue(bool(sample1[2] >= 0 and sample1[2] <= 30))
+
+    def test_sample1(self):
+        test1 = MultivarHG({'A': 10, 'B': 10})
+        test2 = MultivarHG([10, 10], names=['A', 'B'])
+        test3 = MultivarHG([10, 10])
+        for i in range(20):
+            sample1 = test1.sample1()
+            sample2 = test2.sample1()
+            sample3 = test3.sample1()
+            self.assertTrue(bool(sample1 is 'A' or sample1 is 'B'))
+            self.assertTrue(bool(sample2 is 'A' or sample2 is 'B'))
+            self.assertTrue(bool(int(sample3) == 1 or int(sample3) == 0))
+
 
 class TestResetMethod(unittest.TestCase):
-    # TODO
+    # TODO: test exceptions from poor initialization
     def test(self):
-        return None
+        test1 = MultivarHG([10, 20, 30])
+        test1.sample(20)
+        self.assertNotEqual(test1.curr_total, 60)
+        test1.reset()
+        self.assertEqual(test1.curr_total, 60)
+        self.assertEqual(test1.curr_counts[0], 10)
+        self.assertEqual(test1.curr_counts[1], 20)
+        self.assertEqual(test1.curr_counts[2], 30)
 
 
 class TestStrMethods(unittest.TestCase):
