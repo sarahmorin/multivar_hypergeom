@@ -30,11 +30,14 @@ class TestCreationMethod(unittest.TestCase):
 
     def test_exceptions(self):
         self.assertRaises(Exception, MultivarHG, [0], names=[' ', ' '])
+        self.assertRaises(Exception, MultivarHG, [0, 1, 2], names=[' ', ' '])
         self.assertRaises(Exception, MultivarHG, {'A': 0}, names=[' '])
         self.assertRaises(TypeError, MultivarHG, [0.5])
         self.assertRaises(TypeError, MultivarHG, [' '])
         self.assertRaises(TypeError, MultivarHG, {'A': 0.5})
         self.assertRaises(TypeError, MultivarHG, {'A': 'a'})
+        self.assertRaises(ValueError, MultivarHG, [1, 2], total=1)
+        self.assertRaises(ValueError, MultivarHG, [10, 20], total=100)
 
 
 class TestSamplingMethod(unittest.TestCase):
@@ -92,9 +95,23 @@ class TestResetMethod(unittest.TestCase):
 
 
 class TestStrMethods(unittest.TestCase):
-    # TODO
-    def test(self):
-        return None
+
+    def test_repr(self):
+        test1 = MultivarHG([10, 20, 30])
+        test2 = MultivarHG([10, 20, 30], names=['First', 'Second', 'Third'])
+        test3 = MultivarHG({'One': 1, 'Two': 2, 'Three': 3})
+        self.assertEqual(test1.__repr__(),
+                         'MultivarHG([\'0\', \'1\', \'2\'],[10, 20, 30],60)')
+        self.assertEqual(test2.__repr__(),
+                         'MultivarHG([\'First\', \'Second\', \'Third\'],[10, 20, 30],60)')
+        self.assertEqual(test3.__repr__(),
+                         'MultivarHG([\'One\', \'Two\', \'Three\'],[1, 2, 3],6)')
+
+    def test_str(self):
+        test1 = MultivarHG([10, 20, 30])
+        test2 = MultivarHG([10, 20, 30], names=['First', 'Second', 'Third'])
+        test3 = MultivarHG({'One': 1, 'Two': 2, 'Three': 3})
+        # TODO
 
 
 class TestCDFMethod(unittest.TestCase):

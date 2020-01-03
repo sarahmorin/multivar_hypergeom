@@ -91,6 +91,9 @@ class MultivarHG(object):
                     counts must be List[int] or Dict[str, int]')
 
         if total:
+            if sum(self.init_counts) != total:
+                raise ValueError('Total must be equal to the sum of \
+                        all object counts')
             self.init_total = total
             self.curr_total = total
         else:
