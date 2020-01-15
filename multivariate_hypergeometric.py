@@ -69,8 +69,7 @@ class MultivarHG(object):
 
             if names:
                 if len(names) != len(counts):
-                    raise Exception('Incompatible lengths: \
-                            type names and counts must be equal length')
+                    raise Exception('Incompatible lengths: type names and counts must be equal length')
 
                 self.type_names = names
 
@@ -81,12 +80,10 @@ class MultivarHG(object):
             self.curr_counts = counts.values()
             self.type_names = counts.keys()
             if names:
-                raise Exception('Too may arguments: \
-                        type names input in counts and names')
+                raise Exception('Too may arguments: type names input in counts and names')
 
         else:
-            raise TypeError('Unsupported type: \
-                    counts must be List[int] or Dict[str, int]')
+            raise TypeError('Unsupported type: counts must be List[int] or Dict[str, int]')
 
         if total:
             self.init_total = total
@@ -116,10 +113,10 @@ class MultivarHG(object):
         @return: NumPy array of floats where each entry is the sum of
         proportions of items up to that point.
         """
-        props = np.array([self.curr_counts[i]/self.curr_total
+        props = np.array([self.curr_counts[i] / self.curr_total
                          for i in range(len(self.curr_counts))],
                          dtype=float)
-        return np.array([sum(props[:i+1]) for i in range(self.type_num)])
+        return np.array([sum(props[:i + 1]) for i in range(self.type_num)])
 
     def sample(self, size: int) -> np.ndarray:
         """
@@ -158,8 +155,7 @@ class MultivarHG(object):
     def reset(self) -> None:
         """Resets distribution to initial state."""
         if self.init_total == 0 or self.init_counts is None:
-            raise Exception('Instantiation Error: \
-                            initial values not stored correctly')
+            raise Exception('Instantiation Error: initial values not stored correctly')
 
         self.curr_total = self.init_total
         self.curr_counts = self.init_counts
