@@ -1,16 +1,30 @@
-.PHONY: lint test clean
+.PHONY: lint lint-full test clean
 
 PY=python3
 LINT=pycodestyle
 
+# Warnings and errors to ignore 
+# E501 - line too long
+# W505 - doc line too long 
+IGNORE=E501,W505
 
 all: clean lint test
 
 lint: 
-	$(LINT) --show-source *.py
+	@echo "========== Linting =========="
+	$(LINT) --ignore=$(IGNORE) --show-source *.py
+	@echo ""
 
-test: test.py multivariate_hypergeometric.py
+lint-full:
+	@echo "========== Linting =========="
+	$(LINT) --show-source --statistics *.py
+	@echo ""
+
+test: multivariate_hypergeometric.py test.py
+	@echo "========== Testing =========="
 	$(PY) test.py
+	@echo ""
 
 clean: 
-	find . -name "*.pyc" -delete -print
+	@echo "========== Cleaning ========="
+	find . -name "*.pyc"7 -delete -print
