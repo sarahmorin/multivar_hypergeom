@@ -100,12 +100,9 @@ class TestStrMethods(unittest.TestCase):
         test1 = MultivarHG([10, 20, 30])
         test2 = MultivarHG([10, 20, 30], names=['First', 'Second', 'Third'])
         test3 = MultivarHG({'One': 1, 'Two': 2, 'Three': 3})
-        self.assertEqual(test1.__repr__(),
-                         'MultivarHG([\'0\', \'1\', \'2\'],[10, 20, 30],60)')
-        self.assertEqual(test2.__repr__(),
-                         'MultivarHG([\'First\', \'Second\', \'Third\'],[10, 20, 30],60)')
-        self.assertEqual(test3.__repr__(),
-                         'MultivarHG([\'One\', \'Two\', \'Three\'],[1, 2, 3],6)')
+        self.assertEqual(test1.__repr__(), 'MultivarHG([\'0\', \'1\', \'2\'],[10, 20, 30],60)')
+        self.assertEqual(test2.__repr__(), 'MultivarHG([\'First\', \'Second\', \'Third\'],[10, 20, 30],60)')
+        self.assertEqual(test3.__repr__(), 'MultivarHG([\'One\', \'Two\', \'Three\'],[1, 2, 3],6)')
 
     def test_str(self):
         test1 = MultivarHG([10, 20, 30])
