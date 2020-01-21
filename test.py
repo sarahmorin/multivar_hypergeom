@@ -112,9 +112,14 @@ class TestStrMethods(unittest.TestCase):
 
 
 class TestCDFMethod(unittest.TestCase):
-    # TODO
-    def test(self):
-        return None
+    # TODO more aggressive testing
+    def test_simple(self):
+        test1 = MultivarHG([10, 20, 30])
+        test2 = MultivarHG({'A': 40, 'B': 100, 'C': 60})
+        cdf1 = list(test1.cdf())
+        cdf2 = list(test2.cdf())
+        self.assertListEqual(cdf1, [float(1 / 6), float(3 / 6), float(6 / 6)])
+        self.assertListEqual(cdf2, [float(4 / 20), float(14 / 20), float(20 / 20)])
 
 
 if __name__ == '__main__':
