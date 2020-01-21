@@ -13,18 +13,19 @@ all: clean lint test
 lint: 
 	@echo "========== Linting =========="
 	$(LINT) --ignore=$(IGNORE) --show-source *.py
-	@echo ""
+	@echo "\n"
 
 lint-full:
 	@echo "========== Linting =========="
 	$(LINT) --show-source --statistics *.py
-	@echo ""
+	@echo "\n"
 
 test: multivariate_hypergeometric.py test.py
 	@echo "========== Testing =========="
 	$(PY) test.py
-	@echo ""
+	@echo "\n"
 
 clean: 
 	@echo "========== Cleaning ========="
 	find . -name "*.pyc"7 -delete -print
+	@echo "\n"
