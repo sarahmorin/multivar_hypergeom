@@ -106,12 +106,10 @@ class MultivarHG(object):
                                              )
 
     def __str__(self):
-        return 'Types: {} \n \
-                Counts: {} \n \
-                Total: {}'.format(self.type_names,
-                                  self.curr_counts,
-                                  self.curr_total
-                                  )
+        return 'Types: {} \nCounts: {} \nTotal: {}'.format(self.type_names,
+                                                           self.curr_counts,
+                                                           self.curr_total
+                                                           )
 
     def cdf(self) -> np.ndarray:
         """

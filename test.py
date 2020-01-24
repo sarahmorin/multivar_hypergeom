@@ -108,11 +108,13 @@ class TestStrMethods(unittest.TestCase):
         test1 = MultivarHG([10, 20, 30])
         test2 = MultivarHG([10, 20, 30], names=['First', 'Second', 'Third'])
         test3 = MultivarHG({'One': 1, 'Two': 2, 'Three': 3})
-        # TODO
+        self.assertEqual(test1.__str__(), 'Types: [\'0\', \'1\', \'2\'] \nCounts: [10, 20, 30] \nTotal: 60')
+        self.assertEqual(test2.__str__(), 'Types: [\'First\', \'Second\', \'Third\'] \nCounts: [10, 20, 30] \nTotal: 60')
+        self.assertEqual(test3.__str__(), 'Types: [\'One\', \'Two\', \'Three\'] \nCounts: [1, 2, 3] \nTotal: 6')
 
 
 class TestCDFMethod(unittest.TestCase):
-    # TODO more aggressive testing
+
     def test_simple(self):
         test1 = MultivarHG([10, 20, 30])
         test2 = MultivarHG({'A': 40, 'B': 100, 'C': 60})
@@ -120,6 +122,17 @@ class TestCDFMethod(unittest.TestCase):
         cdf2 = list(test2.cdf())
         self.assertListEqual(cdf1, [float(1 / 6), float(3 / 6), float(6 / 6)])
         self.assertListEqual(cdf2, [float(4 / 20), float(14 / 20), float(20 / 20)])
+
+    def test_large(self):
+        # TODO: tests for large distributions
+        return None
+
+    def test_full(self):
+        # TODO: full set of test cases
+        # - Tests each round of sampling
+        # - Tests for empty distributions
+        # - Tests last element is always 1.0
+        return None
 
 
 if __name__ == '__main__':
