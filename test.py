@@ -30,11 +30,14 @@ class TestCreationMethod(unittest.TestCase):
 
     def test_exceptions(self):
         self.assertRaises(Exception, MultivarHG, [0], names=[' ', ' '])
+        self.assertRaises(Exception, MultivarHG, [0, 1, 2], names=[' ', ' '])
         self.assertRaises(Exception, MultivarHG, {'A': 0}, names=[' '])
         self.assertRaises(TypeError, MultivarHG, [0.5])
         self.assertRaises(TypeError, MultivarHG, [' '])
         self.assertRaises(TypeError, MultivarHG, {'A': 0.5})
         self.assertRaises(TypeError, MultivarHG, {'A': 'a'})
+        self.assertRaises(ValueError, MultivarHG, [1, 2], total=1)
+        self.assertRaises(ValueError, MultivarHG, [10, 20], total=100)
 
 
 class TestSamplingMethod(unittest.TestCase):
@@ -49,7 +52,7 @@ class TestSamplingMethod(unittest.TestCase):
         test.sample(6)
         self.assertRaises(Exception, test.sample, 2)
 
-    def simple(self):
+    def simple_list(self):
         test1 = MultivarHG([10, 20, 30])
         sample1 = test1.sample(30)
         self.assertTrue(bool(sum(sample1) == 30))
@@ -57,22 +60,78 @@ class TestSamplingMethod(unittest.TestCase):
         self.assertTrue(bool(sample1[1] >= 0 and sample1[1] <= 20))
         self.assertTrue(bool(sample1[2] >= 0 and sample1[2] <= 30))
 
+    def simple_dict(self):
+        test1 = MultivarHG({'A': 10, 'B': 20, 'C': 30})
+        sample1 = test.sample(30)
+        self.assertTrue(bool(sum(sample1) == 30))
+        self.assertTrue(bool(sample1[0] >= 0 and sample1[0] <= 10))
+        self.assertTrue(bool(sample1[1] >= 0 and sample1[1] <= 20))
+        self.assertTrue(bool(sample1[2] >= 0 and sample1[2] <= 30))
+
+    def test_sample1(self):
+        test1 = MultivarHG({'A': 10, 'B': 10})
+        test2 = MultivarHG([10, 10], names=['A', 'B'])
+        test3 = MultivarHG([10, 10])
+        for i in range(20):
+            sample1 = test1.sample1()
+            sample2 = test2.sample1()
+            sample3 = test3.sample1()
+            self.assertTrue(bool(sample1 is 'A' or sample1 is 'B'))
+            self.assertTrue(bool(sample2 is 'A' or sample2 is 'B'))
+            self.assertTrue(bool(int(sample3) == 1 or int(sample3) == 0))
+
 
 class TestResetMethod(unittest.TestCase):
-    # TODO
+    # TODO: test exceptions from poor initialization
     def test(self):
-        return None
+        test1 = MultivarHG([10, 20, 30])
+        test1.sample(20)
+        self.assertNotEqual(test1.curr_total, 60)
+        test1.reset()
+        self.assertEqual(test1.curr_total, 60)
+        self.assertEqual(test1.curr_counts[0], 10)
+        self.assertEqual(test1.curr_counts[1], 20)
+        self.assertEqual(test1.curr_counts[2], 30)
 
 
 class TestStrMethods(unittest.TestCase):
-    # TODO
-    def test(self):
-        return None
+
+    def test_repr(self):
+        test1 = MultivarHG([10, 20, 30])
+        test2 = MultivarHG([10, 20, 30], names=['First', 'Second', 'Third'])
+        test3 = MultivarHG({'One': 1, 'Two': 2, 'Three': 3})
+        self.assertEqual(test1.__repr__(), 'MultivarHG([\'0\', \'1\', \'2\'],[10, 20, 30],60)')
+        self.assertEqual(test2.__repr__(), 'MultivarHG([\'First\', \'Second\', \'Third\'],[10, 20, 30],60)')
+        self.assertEqual(test3.__repr__(), 'MultivarHG([\'One\', \'Two\', \'Three\'],[1, 2, 3],6)')
+
+    def test_str(self):
+        test1 = MultivarHG([10, 20, 30])
+        test2 = MultivarHG([10, 20, 30], names=['First', 'Second', 'Third'])
+        test3 = MultivarHG({'One': 1, 'Two': 2, 'Three': 3})
+        self.assertEqual(test1.__str__(), 'Types: [\'0\', \'1\', \'2\'] \nCounts: [10, 20, 30] \nTotal: 60')
+        self.assertEqual(test2.__str__(), 'Types: [\'First\', \'Second\', \'Third\'] \nCounts: [10, 20, 30] \nTotal: 60')
+        self.assertEqual(test3.__str__(), 'Types: [\'One\', \'Two\', \'Three\'] \nCounts: [1, 2, 3] \nTotal: 6')
 
 
 class TestCDFMethod(unittest.TestCase):
-    # TODO
-    def test(self):
+
+    def test_simple(self):
+        test1 = MultivarHG([10, 20, 30])
+        test2 = MultivarHG({'A': 40, 'B': 100, 'C': 60})
+        cdf1 = list(test1.cdf())
+        cdf2 = list(test2.cdf())
+        self.assertListEqual(cdf1, [float(1 / 6), float(3 / 6), float(6 / 6)])
+        self.assertListEqual(cdf2, [float(4 / 20), float(14 / 20), float(20 / 20)])
+
+    def test_large(self):
+        # TODO: tests for large distributions
+        return None
+
+    def test_full(self):
+        # TODO: full set of test cases
+        # - Tests each round of sampling
+        # - Tests for empty distributions
+        # - Tests last element is always 1.0
         return None
 
 

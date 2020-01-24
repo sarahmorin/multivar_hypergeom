@@ -12,8 +12,6 @@ from typing import Union
 from typing import List
 from typing import Dict
 
-InputDist = Union[List[int], Dict[str, int]]
-
 
 class MultivarHG(object):
     """
@@ -64,21 +62,25 @@ class MultivarHG(object):
         integer values, should be equal to sum of those counts.
         """
         if type(counts) is list and all(isinstance(n, int) for n in counts):
-            self.init_counts = counts
-            self.curr_counts = counts
+            self.init_counts = list(counts)
+            self.curr_counts = list(counts)
 
             if names:
                 if len(names) != len(counts):
                     raise Exception('Incompatible lengths: type names and counts must be equal length')
 
                 self.type_names = names
+            else:
+                self.type_names = list()
+                for i in range(len(counts)):
+                    self.type_names.append(str(i))
 
         elif type(counts) is dict \
                 and all(isinstance(k, str) for k in counts.keys()) \
                 and all(isinstance(v, int) for v in counts.values()):
-            self.init_counts = counts.values()
-            self.curr_counts = counts.values()
-            self.type_names = counts.keys()
+            self.init_counts = list(counts.values())
+            self.curr_counts = list(counts.values())
+            self.type_names = list(counts.keys())
             if names:
                 raise Exception('Too may arguments: type names input in counts and names')
 
@@ -86,6 +88,9 @@ class MultivarHG(object):
             raise TypeError('Unsupported type: counts must be List[int] or Dict[str, int]')
 
         if total:
+            if sum(self.init_counts) != total:
+                raise ValueError('Total must be equal to the sum of \
+                        all object counts')
             self.init_total = total
             self.curr_total = total
         else:
@@ -97,14 +102,14 @@ class MultivarHG(object):
     def __repr__(self):
         return 'MultivarHG({},{},{})'.format(self.type_names,
                                              self.curr_counts,
-                                             self.curr_total)
+                                             self.curr_total
+                                             )
 
     def __str__(self):
-        return 'Types: {} \n \
-                Counts: {} \n \
-                Total: {}'.format(self.type_names,
-                                  self.curr_counts,
-                                  self.curr_total)
+        return 'Types: {} \nCounts: {} \nTotal: {}'.format(self.type_names,
+                                                           self.curr_counts,
+                                                           self.curr_total
+                                                           )
 
     def cdf(self) -> np.ndarray:
         """
@@ -152,10 +157,29 @@ class MultivarHG(object):
 
         return sample_counts
 
+    def sample1(self) -> str:
+        """
+        Sample 1 item from current distribution.
+
+        @return: item type (as string) of 1 sampled item.
+        """
+        if self.curr_total == 0:
+            raise Exception('Empty sample space')
+        cdf = self.cdf()
+        rv = np.random.random()
+        for i in range(self.type_num):
+            if rv < cdf[i] and self.curr_counts[i] > 0:
+                self.curr_counts[i] -= 1
+                self.curr_total -= 1
+                return self.type_names[i]
+        return None
+
     def reset(self) -> None:
         """Resets distribution to initial state."""
         if self.init_total == 0 or self.init_counts is None:
             raise Exception('Instantiation Error: initial values not stored correctly')
 
         self.curr_total = self.init_total
-        self.curr_counts = self.init_counts
+        for i in range(self.type_num):
+            self.curr_counts[i] = self.init_counts[i]
+        return None
