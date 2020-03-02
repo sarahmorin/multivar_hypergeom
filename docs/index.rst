@@ -1,19 +1,22 @@
-Welcome to Multivariate Hypergeometric's documentation!
-=======================================================
+========
+Contents
+========
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    readme
    installation
    usage
+   reference/index
    contributing
    authors
-   history
+   changelog
 
 Indices and tables
 ==================
+
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+

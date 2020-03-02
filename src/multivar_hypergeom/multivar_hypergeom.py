@@ -6,8 +6,9 @@ __all__ = ["MultivarHypergeom"]
 __version__ = "0.0.1"
 __author__ = "Sarah Morin"
 
-import numpy as np
 from typing import List
+
+import numpy as np
 
 
 class MultivarHypergeom(object):
