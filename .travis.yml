@@ -1,3 +1,37 @@
-deploy:
-  password:
-    secure: GdYzZNxxiHFwvH/kyCVbDpKjkw62JQz/P7LLcaxGp66EpX7blMZYQRZ0G/4qbG7T8ieOGH41uJbbScEDFXRtvmG37IsNAq9EbK3U1OWvFuv8Wj03s+I18i5wP7ebyjyQsZWk49o3FNULziYeB9T9Rh8VOGTD+jb55qCKEC1VoQ1FLgZNCD765oN2RU5H58ifA94DQybMTghUO3W0ri76G2CqjKkcRFEw0Ti3KXAOl0SbND8GiInn3wnIP/ktL9vIGTk12ET67fQ1MXO5xjLDDjAurORT89G+jf25+axDsurxNJXpjwoJpBgUEWI+JnKutbwtYxGt0+vuKmUvs0HEuqSODXX6In9dtVaoZr9JatU+PFPHCzF83jmhv7LWtA5tuR79wnIAbgJ6WmiV2uw1R3diVFNsPoUW7PrxtsKfvwQxh4z2aDdFYMPN4Y06cItmnHogBkfHD/iZPjxPkvetb2D5CXZChFNOCLYEvMnx/TglEPLj8sSJSLNN8ZMBlEgG6Q6ai24GU21qWkZnU8N2BjkEXm8F8N7PyBe6n5YQKCViS/o6kmPZwVCVck3BPr5+TKtKfGTXG1AM8NaVaF47XgTY/hzRYelTr44OXAgAu4GMMaj5xeqL9cteCUD4dfkLC2Ju4OK7A6g70I7muHc4Ne/UJStP/Gnj2pAM9YAd3lg=
+os: linux
+language: python
+dist: xenial
+cache: false
+env:
+  global:
+    - LD_PRELOAD=/lib/x86_64-linux-gnu/libSegFault.so
+    - SEGFAULT_SIGNALS=all
+jobs:
+  include:
+    - python:  '3.6'
+      env:
+        - TOXENV=check,docs,codecov
+    - python: '3.6'
+      env:
+        - TOXENV=py36
+    - python: '3.7'
+      env:
+        - TOXENV=py37
+    - python: '3.8'
+      env:
+        - TOXENV=py38
+before_install:
+  - python --version
+  - uname -a
+  - lsb_release -a || true
+install:
+  - python -mpip install --progress-bar=off tox -rci/requirements.txt
+  - virtualenv --version
+  - easy_install --version
+  - pip --version
+  - tox --version
+script:
+  - tox -v
+after_failure:
+  - more .tox/log/* | cat
+  - more .tox/*/log/* | cat

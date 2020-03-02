@@ -47,11 +47,6 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/multivar_hypergeom
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/smorin8674/multivar_hypergeom/v0.0.0.svg
-    :alt: Commits since latest release
-    :target: https://github.com/smorin8674/multivar_hypergeom/compare/v0.0.0...master
-
-
 
 .. end-badges
 
