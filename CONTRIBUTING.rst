@@ -11,6 +11,7 @@ Bug reports
 When `reporting a bug <https://github.com/smorin8674/multivar_hypergeom/issues>`_ please include:
 
     * Your operating system name and version.
+    * Your Python version which produced the issue.
     * Any details about your local setup that might be helpful in troubleshooting.
     * Detailed steps to reproduce the bug.
 
@@ -28,6 +29,7 @@ The best way to send feedback is to file an issue at https://github.com/smorin86
 
 If you are proposing a feature:
 
+* Explain why it would be a useful feature.
 * Explain in detail how it would work.
 * Keep the scope as narrow as possible, to make it easier to implement.
 * Remember that this is a volunteer-driven project, and that code contributions are welcome :)
