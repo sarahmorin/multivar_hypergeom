@@ -2,6 +2,7 @@
 
 """Tests for `multivar_hypergeom` package."""
 
+import numpy as np
 import pytest
 
 from multivar_hypergeom.multivar_hypergeom import MultivarHypergeom
@@ -148,6 +149,12 @@ class TestCDFMethod:
         cdf2 = list(test2.cdf())
         assert cdf1 == [float(1 / 6), float(3 / 6), float(6 / 6)]
         assert cdf2 == [float(4 / 20), float(14 / 20), float(20 / 20)]
+
+    def test_empty(self):
+        test = MultivarHypergeom([10, 10, 10])
+        for i in range(30):
+            test.sample1()
+        assert np.array_equal(test.cdf(), np.zeros(3, dtype=float))
 
     def test_large(self):
         # TODO: tests for large distributions
