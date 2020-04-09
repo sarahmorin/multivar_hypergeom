@@ -110,6 +110,9 @@ class MultivarHypergeom(object):
             NumPy array of floats where each entry is the sum of proportions of items
             up to that point.
         """
+        if self.curr_total == 0:
+            return np.zeros(self.num_types, dtype=float)
+
         props = np.array(
             [
                 self.curr_counts[i] / self.curr_total
