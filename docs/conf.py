@@ -12,6 +12,8 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.inheritance_diagram',
 ]
 source_suffix = '.rst'
 master_doc = 'index'
@@ -22,7 +24,17 @@ copyright = '{0}, {1}'.format(year, author)
 version = release = '0.0.0'
 
 autoapi_type = 'python'
-autoapi_dirs = ['../src']
+autoapi_dirs = ['../src/multivar_hypergeom']
+autoapi_add_toctree_entry = False
+
+autoapi_options = [
+        'members',
+        'inherited-members',
+        'private-members',
+        'special-members',
+        'show-inheritance',
+        ]
+autoapi_python_class_content = 'both'
 
 pygments_style = 'trac'
 templates_path = ['.']
