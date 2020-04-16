@@ -2,10 +2,6 @@
     Module for sampling from multivariate hypergeometric distribution.
 """
 
-__all__ = ["MultivarHypergeom"]
-__version__ = "0.0.1"
-__author__ = "Sarah Morin"
-
 from typing import List
 
 import numpy as np
