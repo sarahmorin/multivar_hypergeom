@@ -8,7 +8,7 @@ little bit helps, and credit will always be given.
 Bug reports
 ===========
 
-When `reporting a bug <https://github.com/smorin8674/multivar_hypergeom/issues>`_ please include:
+When `reporting a bug <https://github.com/sarahmorin/multivar_hypergeom/issues>`_ please include:
 
     * Your operating system name and version.
     * Your Python version which produced the issue.
@@ -25,7 +25,7 @@ articles, and such.
 Feature requests and feedback
 =============================
 
-The best way to send feedback is to file an issue at https://github.com/smorin8674/multivar_hypergeom/issues.
+The best way to send feedback is to file an issue at https://github.com/sarahmorin/multivar_hypergeom/issues.
 
 If you are proposing a feature:
 
@@ -39,11 +39,11 @@ Development
 
 To set up `multivar_hypergeom` for local development:
 
-1. Fork `multivar_hypergeom <https://github.com/smorin8674/multivar_hypergeom>`_
+1. Fork `multivar_hypergeom <https://github.com/sarahmorin/multivar_hypergeom>`_
    (look for the "Fork" button).
 2. Clone your fork locally::
 
-    git clone git@github.com:smorin8674/multivar_hypergeom.git
+    git clone git@github.com:sarahmorin/multivar_hypergeom.git
 
 3. Create a branch for local development::
 
@@ -57,8 +57,7 @@ To set up `multivar_hypergeom` for local development:
 
 5. Commit your changes and push your branch to GitHub::
 
-    git add .
-    git commit -m "Your detailed description of your changes."
+    git commit [-a]
     git push origin name-of-your-bugfix-or-feature
 
 6. Submit a pull request through the GitHub website.
@@ -76,7 +75,7 @@ For merging, you should:
 4. Add yourself to ``AUTHORS.rst``.
 
 .. [1] If you don't have all the necessary python versions available locally you can rely on Travis - it will
-       `run the tests <https://travis-ci.org/smorin8674/multivar_hypergeom/pull_requests>`_ for each change you add in the pull request.
+       `run the tests <https://travis-ci.org/sarahmorin/multivar_hypergeom/pull_requests>`_ for each change you add in the pull request.
 
        It will be slower though ...
 
