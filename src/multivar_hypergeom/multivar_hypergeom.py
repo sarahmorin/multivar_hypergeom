@@ -111,16 +111,16 @@ class MultivarHypergeom(object):
             up to that point.
         """
         if self.curr_total == 0:
-            return np.zeros(self.num_types, dtype=float)
+            return np.ones(self.num_types, dtype=np.float64)
 
         props = np.array(
             [
-                self.curr_counts[i] / self.curr_total
-                for i in range(len(self.curr_counts))
+                float(sum(self.curr_counts[:i+1])) / float(self.curr_total)
+                for i in range(self.num_types)
             ],
-            dtype=float,
+            dtype=np.float64,
         )
-        return np.array([sum(props[: i + 1]) for i in range(self.num_types)])
+        return props
 
     def sample(self, size: int) -> np.ndarray:
         """
