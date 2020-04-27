@@ -25,7 +25,7 @@ def read(*names, **kwargs):
 
 setup(
     name='multivar_hypergeom',
-    version='0.0.0',
+    version='0.0.1',
     license='MIT',
     description='A Python module for sampling from the Multivariate Hypergeometric distribution.',
     long_description='%s\n%s' % (
