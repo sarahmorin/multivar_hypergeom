@@ -21,7 +21,7 @@ project = 'Multivariate Hypergeometric'
 year = '2020'
 author = 'Sarah Morin'
 copyright = '{0}, {1}'.format(year, author)
-version = release = '0.0.0'
+version = release = '0.0.1'
 
 autoapi_type = 'python'
 autoapi_dirs = ['../src/multivar_hypergeom']
