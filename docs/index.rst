@@ -1,6 +1,6 @@
-=========================
-Multiariate Hypergeomtric
-=========================
+===========================
+Multivariate Hypergeometric
+===========================
 
 
 .. start-badges
